@@ -4,11 +4,20 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var userController = require('./controllers/user-controller');
+var skillController = require('./controllers/skill-controller');
+var questionController = require('./controllers/question-controller');
+var questionStateController = require('./controllers/question-state-controller');
 
 var app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use('/users', userController);
+app.use('/skills', skillController);
+app.use('/questions', questionController);
+app.use('/questions-states', questionStateController);
 
 
 app.get('/', (req,res) => {

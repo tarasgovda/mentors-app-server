@@ -1,11 +1,11 @@
-const userService = require('../service/user-service.js')
+const skillService = require('../service/skill-service.js')
 const express = require('express');
 const router = express.Router();
 
 
 router.get('/', async function (req, res) {
   try {
-    let result = await userService.all();
+    let result = await skillService.all();
     res.send(result);
   } catch(err) {
     res.status(500);
@@ -14,15 +14,15 @@ router.get('/', async function (req, res) {
 });
 
 router.put('/', async function (req, res) {
-  await userService.create(req, res);
+  await skillService.create(req, res);
 });
 
 router.post('/', async function (req, res) {
-  await userService.update(req, res);
+  await skillService.update(req, res);
 });
 
 router.delete('/:id', async function (req, res) {
-  await userService.delete(req, res);
+  await skillService.delete(req, res);
 });
 
 module.exports = router;

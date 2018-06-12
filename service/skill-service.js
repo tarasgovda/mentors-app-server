@@ -1,40 +1,40 @@
-const User = require('../models/user');
+const Skill = require('../models/skill');
 
 exports.all = async function() {
-  return await User.find({}, function (err, data) {
+  return await Skill.find({}, function (err, data) {
     if(err) throw new Error(err);
     return data;
   })
 };
 
 exports.create = async function(req, res) {
-  await new User(req.body).save(function(err, user) {
+  await new Skill(req.body).save(function(err, skill) {
     if(err) {
       processErr(err, res);
       return;
     }
-    res.send(user);
+    res.send(skill);
   })
 };
 
 exports.update = async function(req, res) {
 
-  await User.findByIdAndUpdate(req.body.id, req.body, {"new": true}, function (err, updatedUser) {
+  await Skill.findByIdAndUpdate(req.body.id, req.body, {"new": true}, function (err, updatedSkill) {
     if(err) {
       processErr(err, res);
       return;
     }
-    res.send(updatedUser);
+    res.send(updatedSkill);
   })
 };
 
 exports.delete = async function(req, res) {
-  await User.findByIdAndDelete(req.params.id, function (err, deletedUser) {
+  await Skill.findByIdAndDelete(req.params.id, function (err, deletedSkill) {
     if(err) {
       processErr(err, res);
       return;
     }
-    res.send(deletedUser);
+    res.send(deletedSkill);
   })
 };
 

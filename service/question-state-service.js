@@ -1,40 +1,40 @@
-const User = require('../models/user');
+const QuestionState = require('../models/question-state');
 
 exports.all = async function() {
-  return await User.find({}, function (err, data) {
+  return await QuestionState.find({}, function (err, data) {
     if(err) throw new Error(err);
     return data;
   })
 };
 
 exports.create = async function(req, res) {
-  await new User(req.body).save(function(err, user) {
+  await new QuestionState(req.body).save(function(err, questionState) {
     if(err) {
       processErr(err, res);
       return;
     }
-    res.send(user);
+    res.send(questionState);
   })
 };
 
 exports.update = async function(req, res) {
 
-  await User.findByIdAndUpdate(req.body.id, req.body, {"new": true}, function (err, updatedUser) {
+  await QuestionState.findByIdAndUpdate(req.body.id, req.body, {"new": true}, function (err, updatedQuestionState) {
     if(err) {
       processErr(err, res);
       return;
     }
-    res.send(updatedUser);
+    res.send(updatedQuestionState);
   })
 };
 
 exports.delete = async function(req, res) {
-  await User.findByIdAndDelete(req.params.id, function (err, deletedUser) {
+  await QuestionState.findByIdAndDelete(req.params.id, function (err, deletedQuestionState) {
     if(err) {
       processErr(err, res);
       return;
     }
-    res.send(deletedUser);
+    res.send(deletedQuestionState);
   })
 };
 
