@@ -1,4 +1,5 @@
 const Question = require('../models/question');
+const logger = require('../logger');
 
 exports.all = async function() {
   return await Question.find({}, function (err, data) {
@@ -40,7 +41,7 @@ exports.delete = async function(req, res) {
 
 
 function processErr(err, response) {
-  console.log(err);
+  logger.info(err);
   response.status(500);
   response.send(err.message);
 }
