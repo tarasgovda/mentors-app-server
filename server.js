@@ -11,8 +11,14 @@ var questionStateController = require('./controllers/question-state-controller')
 
 var app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }))
+    .use(bodyParser.json())
+    .use( (req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "*");
+    res.setHeader("Access-Control-Allow-Headers", "content-type");
+    next();
+});
 
 app.use('/users', userController);
 app.use('/skills', skillController);
