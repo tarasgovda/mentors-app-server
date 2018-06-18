@@ -1,6 +1,9 @@
 const User = require('../models/user');
+const axios = require('axios');
+const logger = require('../logger');
 
 exports.all = async function() {
+  logger.info('Getting all users');
   return await User.find({}, function (err, data) {
     if(err) throw new Error(err);
     return data;
@@ -40,7 +43,28 @@ exports.delete = async function(req, res) {
 
 
 function processErr(err, response) {
-  console.log(err);
+  logger.error(err);
   response.status(500);
   response.send(err.message);
+}
+
+exports.authenticate = function (req, res) {
+  axios.post("https://space.sombrainc.com", req.body)
+    then(response => {
+      const user = response.data;
+
+    })
+    .catch(error => {
+      if (error.response) {
+      logger.error(error.response.data);
+      logger.error(error.response.status);
+    } else if (error.request) {
+      logger.error();
+      logger.error(error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      logger.error('Something happened in setting up the request that triggered an Error');
+      logger.error('Error', error.message);
+    }
+    })
 }
