@@ -5,7 +5,7 @@ const userSchema = new Schema({
   firstName: {type: String, required: true},
   lastName: {type: String, required: true},
   mentor: {type: Schema.Types.ObjectId, ref: 'User'},
-  spaceId: {type: Number, required: true, unique: true}
+  email: {type: String, required: true, unique: true}
 });
 
 userSchema.virtual('fullName').get(function() {
