@@ -21,7 +21,6 @@ exports.create = async function(req, res) {
 };
 
 exports.update = async function(req, res) {
-
   await User.findByIdAndUpdate(req.body.id, req.body, {"new": true}, function (err, updatedUser) {
     if(err) {
       processErr(err, res);
@@ -49,9 +48,9 @@ function processErr(err, response) {
 }
 
 exports.authenticate = function (req, res) {
-  // axios.post("https://space.sombrainc.com", req.body)
-  axios.post("192.168.1.239:8080/webhook/authenticate", req.body)
-    then(response => {
+  // axios.post("https://space.sombrainc.com/webhook/authenticate", req.body)              //sombra space prod
+  axios.post("192.168.1.239:8080/webhook/authenticate", req.body)                          //sombra space sandbox
+    .then(response => {
       const user = response.data;
       const userFromDb = User.find({"email": user.email});
       if(userFromDb) {
@@ -65,7 +64,7 @@ exports.authenticate = function (req, res) {
         logger.error(error.response.status);
         logger.error(error.response.data.message);
     } else if (error.request) {
-        logger.error("Request was sent, but no response received");
+        logger.error("Request has been sent, but no response received");
         logger.error(error.request);
     } else {
         // Something happened in setting up the request that triggered an Error
