@@ -39,7 +39,14 @@ app.use('/questions-states', questionStateController);
 
 app.post('/login', function(req, res, next) {
   passport.authenticate('login', function(err, user) {
-  console.log(err);
+    if(err) {
+      res.status(500).send(err.message);
+    }
+    if(user) {
+       res.send(user);
+    } else {
+      res.status(404).send("wrong creds");
+    }
 })(req,res, next)});
 
 
