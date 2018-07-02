@@ -10,6 +10,16 @@ exports.all = async function() {
   })
 };
 
+exports.findOne = async function(req, res)  {
+  await User.findById(req.params.id, function(err, user) {
+    if(err) {
+      processErr(err, res);
+      return;
+    }
+    res.send(user);
+  })
+}
+
 exports.create = async function(req, res) {
   await new User(req.body).save(function(err, user) {
     if(err) {
@@ -45,31 +55,4 @@ function processErr(err, response) {
   logger.error(err);
   response.status(500);
   response.send(err.message);
-}
-
-exports.authenticate = function (req, res) {
-  // axios.post("https://space.sombrainc.com/webhook/authenticate", req.body)              //sombra space prod
-  axios.post("192.168.1.239:8080/webhook/authenticate", req.body)                          //sombra space sandbox
-    .then(response => {
-      const user = response.data;
-      const userFromDb = User.find({"email": user.email});
-      if(userFromDb) {
-
-      } else {
-
-      }
-    })
-    .catch(error => {
-      if (error.response) {
-        logger.error(error.response.status);
-        logger.error(error.response.data.message);
-    } else if (error.request) {
-        logger.error("Request has been sent, but no response received");
-        logger.error(error.request);
-    } else {
-        // Something happened in setting up the request that triggered an Error
-        logger.error('Something happened in setting up the request that triggered an Error');
-        logger.error('Error', error.message);
-    }
-    })
 }

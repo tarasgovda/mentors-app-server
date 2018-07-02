@@ -16,8 +16,8 @@ const userSchema = new Schema({
 });
 
 userSchema.path('roles').validate(function(v) {
-  return v.length > 0 && v.length < 4;
-}, 'roles should contain at least one role and three roles at most', 'Invalid roles array length');
+  return v.length > 0 && v.length <= RolesEnum.length;
+}, `roles should contain at least one role and ${RolesEnum.length} roles at most`, 'Invalid roles array length');
 
 userSchema.path('roles').validate(function(v) {
   for(role of v) {

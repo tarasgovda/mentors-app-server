@@ -32,6 +32,7 @@ module.exports = function(passport) {
         if(user) {
           return done(null, user);
         } else {
+           logger.info(`Received new user ${response.data.firstname} ${response.data.lastname}`);
            const userToCreate = new User();
            userToCreate.email = response.data.email;
            userToCreate.firstName = response.data.firstname;

@@ -5,7 +5,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 const userController = require('./controllers/user-controller');
 const skillController = require('./controllers/skill-controller');
 const questionController = require('./controllers/question-controller');
@@ -17,9 +19,13 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }))
     .use(bodyParser.json())
+    .use(cookieParser())
     .use(session({
       secret: 'mentorsapp',
-      resave: true,
+      store : new RedisStore({
+        url: process.env.REDIS_URL
+      }),
+      resave: false,
       saveUninitialized: false
     }))
     .use(passport.initialize())
@@ -32,25 +38,28 @@ app.use(bodyParser.urlencoded({ extended: true }))
     next();
 });
 
-app.use('/users', userController);
+const isAuthenticated = function(req, res, next) {
+  if(req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).send("Unauthorized");
+}
+
+app.use('/users', isAuthenticated, userController);
 app.use('/skills', skillController);
 app.use('/questions', questionController);
 app.use('/questions-states', questionStateController);
 
-app.post('/login', function(req, res, next) {
-  passport.authenticate('login', function(err, user) {
-    if(err) {
-      res.status(500).send(err.message);
-    }
-    if(user) {
-       res.send(user);
-    } else {
-      res.status(404).send("wrong creds");
-    }
-})(req,res, next)});
+
+app.post('/login', passport.authenticate('login', {successRedirect: '/'}));
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.send('Logout successful');
+})
 
 
-app.get('/', (req,res) => {
+app.get('/', isAuthenticated, (req,res) => {
   return res.end('Api working');
 });
 

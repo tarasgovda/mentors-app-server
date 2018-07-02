@@ -13,6 +13,10 @@ router.get('/', async function (req, res) {
   }
 });
 
+router.get('/:id', async function (req, res) {
+  await userService.findById(req, res);
+})
+
 router.put('/', async function (req, res) {
   await userService.create(req, res);
 });
