@@ -1,12 +1,15 @@
 
 const mongoose = require('mongoose');
+const logger = require('../logger');
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://root:mentorsapppass1@ds247410.mlab.com:47410/mentorsapp');
 
-module.exports.connect = function() {
+
+module.exports.connect = function(url) {
+   mongoose.connect(url);
+
    mongoose.connection
-  .then(() => console.log("Connected"))
-  .catch((err) => console.console.error(err));
+    .then(() => logger.info("Connected"))
+    .catch((err) => logger.error(err));
 }

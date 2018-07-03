@@ -1,7 +1,9 @@
 const app = require('../server');
 const db = require('../config/db')
+const props = require('../config/props');
+const logger = require('../logger');
 const port = process.env.PORT || 3001;
-db.connect();
+db.connect(props.db.url);
 app.listen(port, function() {
- console.log(`api running on port ${port}`);
+ logger.info(`api running on port ${port} in ${props.name} mode`);
 });

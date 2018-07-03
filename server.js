@@ -7,6 +7,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const props = require('./config/props');
 const RedisStore = require('connect-redis')(session);
 const userController = require('./controllers/user-controller');
 const skillController = require('./controllers/skill-controller');
@@ -21,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
     .use(bodyParser.json())
     .use(cookieParser())
     .use(session({
-      secret: 'mentorsapp',
+      secret: props.session.secret,
       store : new RedisStore({
         url: process.env.REDIS_URL
       }),
@@ -56,7 +57,7 @@ app.post('/login', passport.authenticate('login', {successRedirect: '/'}));
 app.get('/logout', (req, res) => {
   req.logout();
   res.send('Logout successful');
-})
+});
 
 
 app.get('/', isAuthenticated, (req,res) => {
