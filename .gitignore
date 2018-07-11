@@ -1,4 +1,4 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
+
 
 # dependencies
 /node_modules
@@ -10,6 +10,9 @@
 /build
 
 /public/bundle.js
+
+#props
+/config/props.js
 
 # misc
 .DS_Store

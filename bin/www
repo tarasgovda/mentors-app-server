@@ -1,9 +1,14 @@
+
+
 const app = require('../server');
 const db = require('../config/db')
-const props = require('../config/props');
+// const props = require('../config/props');
 const logger = require('../logger');
+
+
 const port = process.env.PORT || 3001;
-db.connect(props.db.url);
+// db.connect(props.db.url);
 app.listen(port, function() {
- logger.info(`api running on port ${port} in ${props.name} mode`);
+ // logger.info(`api running on port ${port} in ${props.name} mode`);
+ logger.info(`${port}`);
 });
