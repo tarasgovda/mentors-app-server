@@ -20,7 +20,7 @@ module.exports = function(passport) {
     passwordField : 'password'
   },
   function(user, password, done) {
-    axios.post("http://192.168.1.239:8080/webhook/authenticate", {        //sombra space sandbox
+    axios.post("https://space.sombrainc.com//webhook/authenticate", { 
       email: user,
       pass: password
     })
