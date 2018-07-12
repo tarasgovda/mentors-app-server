@@ -12,7 +12,7 @@
 /public/bundle.js
 
 #props
-#/config/props.js
+/config/props.js
 
 # misc
 .DS_Store

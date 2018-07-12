@@ -17,32 +17,32 @@ const questionStateController = require('./controllers/question-state-controller
 
 
 
-// const props = require('./config/props');
+const props = require('./config/props');
 
 require('./config/passport')(passport);
 
 const app = express();
 
-// app.use(bodyParser.urlencoded({ extended: true }))
-//     .use(bodyParser.json())
-//     .use(cookieParser())
-//     .use(session({
-//       secret: props.session.secret,
-//       store : new RedisStore({
-//         url: process.env.REDIS_URL
-//       }),
-//       resave: false,
-//       saveUninitialized: false
-//     }))
-//     .use(passport.initialize())
-//     .use(passport.session())
-//     .use( (req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Credentials', true);
-//     res.setHeader("Access-Control-Allow-Origin", "*");
-//     res.setHeader("Access-Control-Allow-Methods", "*");
-//     res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
-//     next();
-// });
+app.use(bodyParser.urlencoded({ extended: true }))
+    .use(bodyParser.json())
+    .use(cookieParser())
+    .use(session({
+      secret: props.session.secret,
+      store : new RedisStore({
+        url: process.env.REDIS_URL
+      }),
+      resave: false,
+      saveUninitialized: false
+    }))
+    .use(passport.initialize())
+    .use(passport.session())
+    .use( (req, res, next) => {
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "*");
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
+    next();
+});
 
 const isAuthenticated = function(req, res, next) {
   if(req.isAuthenticated()) {
