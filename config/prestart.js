@@ -23,7 +23,7 @@ const checkProps =  async function() {
 function downloadProps() {
     return new Promise((resolve, reject) => {
       const dropbox = dropboxV2Api.authenticate({
-        token: 'J4wKj7c0KUAAAAAAAAAACepCOQnP1nYTmvAF6E0Ym9Olqo5DwuE6peuMkd_dIh_l'
+        token: process.env.DROPBOX_ACCESS
       });
 
       dropbox({

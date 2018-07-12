@@ -15,7 +15,7 @@ const skillController = require('./controllers/skill-controller');
 const questionController = require('./controllers/question-controller');
 const questionStateController = require('./controllers/question-state-controller');
 
-require('./config/prestart')();
+
 
 // const props = require('./config/props');
 

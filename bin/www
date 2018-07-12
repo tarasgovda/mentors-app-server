@@ -1,14 +1,22 @@
-
-
-const app = require('../server');
-const db = require('../config/db')
-// const props = require('../config/props');
 const logger = require('../logger');
+const db = require('../config/db')
+const prestart = require('../config/prestart');
 
+(async function() {
 
-const port = process.env.PORT || 3001;
-// db.connect(props.db.url);
-app.listen(port, function() {
- // logger.info(`api running on port ${port} in ${props.name} mode`);
- logger.info(`${port}`);
-});
+  try {
+    await prestart();
+  } catch (err) {
+    logger.error('prestart script failed');
+    throw err;
+  }
+
+  const app = require('../server');
+  const props = require('../config/props');
+
+  const port = process.env.PORT || 3001;
+  db.connect(props.db.url);
+  app.listen(port, function() {
+   logger.info(`api running on port ${port} in ${props.name} mode`);
+  });
+})();
